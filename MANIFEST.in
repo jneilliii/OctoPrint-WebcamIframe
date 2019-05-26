@@ -1,0 +1,4 @@
+include README.md
+recursive-include octoprint_webcam_iframe/templates *
+recursive-include octoprint_webcam_iframe/translations *
+recursive-include octoprint_webcam_iframe/static *
