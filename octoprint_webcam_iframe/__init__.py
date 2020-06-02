@@ -19,7 +19,7 @@ class Webcam_iframePlugin(octoprint.plugin.SettingsPlugin,
 	def get_update_information(self):
 		return dict(
 			webcam_iframe=dict(
-				displayName="Webcam_iframe Plugin",
+				displayName="Webcam Iframe",
 				displayVersion=self._plugin_version,
 
 				# version check: github repository
