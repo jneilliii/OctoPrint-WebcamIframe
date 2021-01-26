@@ -10,12 +10,15 @@ $(function() {
 
 		self.settingsViewModel = parameters[0];
 		self.controlViewModel = parameters[1];
+		self.currentTab = "";
 
 		self.onAllBound = function(allViewModels){
 			$('#webcam_container').replaceWith('<iframe id="webcam_container" src="about:blank" width="588" height="330" style="border: none;"></iframe>');
 		}
 
 		self.onTabChange = function(current, previous) {
+				if (current !== null) self.currentTab = current;  // Don't update current tab variable so we can simluate switch back
+            
 				if (current === "#control") {
 					$('#webcam_container').attr("src", self.settingsViewModel.webcam_streamUrl());
 				}
@@ -27,9 +30,9 @@ $(function() {
 		self.controlViewModel.onBrowserTabVisibilityChange = function(status) {
 			if (status) {
 				self.controlViewModel._enableWebcam();
-				$('#webcam_container').attr("src", self.settingsViewModel.webcam_streamUrl());
+				self.onTabChange(self.currentTab, null);  // Simulate change to current tab
 			} else {
-				$('#webcam_container').attr("src", "about:blank");
+				self.onTabChange(null, self.currentTab);  // Simulate change from current tab
 				self.controlViewModel._disableWebcam();
 			}
 		};
