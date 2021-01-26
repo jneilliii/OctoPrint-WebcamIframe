@@ -17,7 +17,7 @@ $(function() {
 		}
 
 		self.onTabChange = function(current, previous) {
-				if (current !== null) self.currentTab = current;  // Don't update current tab variable so we can simluate switch back
+				if (current !== null) self.currentTab = current;  // Don't update current tab variable so we can simulate switch back
             
 				if (current === "#control") {
 					$('#webcam_container').attr("src", self.settingsViewModel.webcam_streamUrl());
