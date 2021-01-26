@@ -13,7 +13,7 @@ $(function() {
 		self.currentTab = "";
 
 		self.onAllBound = function(allViewModels){
-			$('#webcam_container').replaceWith('<iframe id="webcam_container" src="about:blank" width="588" height="330" style="border: none;"></iframe>');
+			$('#webcam_container').replaceWith('<iframe id="webcam_container" src="about:blank" width="588" height="330" style="border: none;" allow="autoplay *; fullscreen *"></iframe>');
 		}
 
 		self.onTabChange = function(current, previous) {
