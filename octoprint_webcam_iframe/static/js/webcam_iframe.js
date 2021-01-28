@@ -12,20 +12,31 @@ $(function() {
 		self.controlViewModel = parameters[1];
 		self.currentTab = "";
 
+		self.timerHideIframe = null;
+		self.timerHidePluginDashboardIframe = null;
+
 		self.onAllBound = function(allViewModels){
 			$('#webcam_container').replaceWith('<iframe id="webcam_container" src="about:blank" width="588" height="330" style="border: none;" allow="autoplay *; fullscreen *"></iframe>');
 		}
 
 		self.onTabChange = function(current, previous) {
+				var iframe_timeout = self.controlViewModel.settings.webcam_streamTimeout();
+				
 				if (current !== null) self.currentTab = current;  // Don't update current tab variable so we can simulate switch back
-            
+				
 				if (current === "#control") {
-					$('#webcam_container').attr("src", self.settingsViewModel.webcam_streamUrl());
+					clearInterval(self.timerHideIframe);
+					if ($('#webcam_container').attr("src") != self.settingsViewModel.webcam_streamUrl()) {
+						$('#webcam_container').attr("src", self.settingsViewModel.webcam_streamUrl());
+					}
 				}
 				if (previous === "#control") {
-					$('#webcam_container').attr("src", "about:blank");
+					clearInterval(self.timerHideIframe);
+					self.timerHideIframe = setTimeout(function() {
+						$('#webcam_container').attr("src", "about:blank");
+					}, iframe_timeout * 1000);
 				}
-            
+				
 				// Dashboard plugin
 				if (current === "#tab_plugin_dashboard") {
 					var dashboard_webcam = $('#plugin_dashboard_webcam_container');
@@ -33,11 +44,16 @@ $(function() {
 						dashboard_webcam = $('<iframe id="plugin_dashboard_webcam_container" src="about:blank" width="100%" height="100%" style="border: none;" allow="autoplay *; fullscreen *"></iframe>');
 						$("#dashboard_webcam_image").replaceWith(dashboard_webcam);
 					}
-
-					dashboard_webcam.attr("src", self.settingsViewModel.webcam_streamUrl());
+					clearInterval(self.timerHidePluginDashboardIframe);
+					if (dashboard_webcam.attr("src") != self.settingsViewModel.webcam_streamUrl()) {
+						dashboard_webcam.attr("src", self.settingsViewModel.webcam_streamUrl());
+					}
 				}
 				if (previous === "#tab_plugin_dashboard") {
-					$('#plugin_dashboard_webcam_container').attr("src", "about:blank");
+					clearInterval(self.timerHidePluginDashboardIframe);
+					self.timerHidePluginDashboardIframe = setTimeout(function() {
+						$('#plugin_dashboard_webcam_container').attr("src", "about:blank");
+					}, iframe_timeout * 1000);
 				}
 			};
 
