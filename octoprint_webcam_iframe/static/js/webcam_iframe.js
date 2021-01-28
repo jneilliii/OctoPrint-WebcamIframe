@@ -20,7 +20,7 @@ $(function() {
 		}
 
 		self.onTabChange = function(current, previous) {
-				var iframe_timeout = self.controlViewModel.settings.webcam_streamTimeout();
+				var iframeTimeout = self.settingsViewModel.webcam_streamTimeout();
 				
 				if (current !== null) self.currentTab = current;  // Don't update current tab variable so we can simulate switch back
 				
@@ -34,7 +34,7 @@ $(function() {
 					clearInterval(self.timerHideIframe);
 					self.timerHideIframe = setTimeout(function() {
 						$('#webcam_container').attr("src", "about:blank");
-					}, iframe_timeout * 1000);
+					}, iframeTimeout * 1000);
 				}
 				
 				// Dashboard plugin
@@ -53,7 +53,7 @@ $(function() {
 					clearInterval(self.timerHidePluginDashboardIframe);
 					self.timerHidePluginDashboardIframe = setTimeout(function() {
 						$('#plugin_dashboard_webcam_container').attr("src", "about:blank");
-					}, iframe_timeout * 1000);
+					}, iframeTimeout * 1000);
 				}
 			};
 
