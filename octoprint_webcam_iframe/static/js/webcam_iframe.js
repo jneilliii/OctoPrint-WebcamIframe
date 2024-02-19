@@ -16,14 +16,14 @@ $(function() {
 		self.timerHidePluginDashboardIframe = null;
 
 		self.onAllBound = function(allViewModels){
-			$('#webcam_container').replaceWith('<iframe id="webcam_container" src="about:blank" width="588" height="330" style="border: none;" allow="autoplay *; fullscreen *"></iframe>');
+			$('#webcam_container, #classicwebcam_container').replaceWith('<iframe id="webcam_container" src="about:blank" width="588" height="330" style="border: none;" allow="autoplay *; fullscreen *"></iframe>');
 		}
 
 		self.onTabChange = function(current, previous) {
 				var iframeTimeout = self.settingsViewModel.webcam_streamTimeout();
-				
+
 				if (current !== null) self.currentTab = current;  // Don't update current tab variable so we can simulate switch back
-				
+
 				if (current === "#control") {
 					clearInterval(self.timerHideIframe);
 					if ($('#webcam_container').attr("src") != self.settingsViewModel.webcam_streamUrl()) {
@@ -36,7 +36,7 @@ $(function() {
 						$('#webcam_container').attr("src", "about:blank");
 					}, iframeTimeout * 1000);
 				}
-				
+
 				// Dashboard plugin
 				if (current === "#tab_plugin_dashboard") {
 					var dashboard_webcam = $('#plugin_dashboard_webcam_container');
@@ -58,13 +58,15 @@ $(function() {
 			};
 
 		self.controlViewModel.onBrowserTabVisibilityChange = function(status) {
-			if (status) {
-				self.controlViewModel._enableWebcam();
-				self.onTabChange(self.currentTab, null);  // Simulate change to current tab
-			} else {
-				self.onTabChange(null, self.currentTab);  // Simulate change from current tab
-				self.controlViewModel._disableWebcam();
-			}
+            if (VERSION.split(".")[1] < 9) {
+                if (status) {
+                    self.controlViewModel._enableWebcam();
+                    self.onTabChange(self.currentTab, null);  // Simulate change to current tab
+                } else {
+                    self.onTabChange(null, self.currentTab);  // Simulate change from current tab
+                    self.controlViewModel._disableWebcam();
+                }
+            }
 		};
 	}
 
