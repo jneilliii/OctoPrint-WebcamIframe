@@ -58,7 +58,7 @@ $(function() {
 			};
 
 		self.controlViewModel.onBrowserTabVisibilityChange = function(status) {
-            if (VERSION.split(".")[1] < 9) {
+            if (VERSION.split(".")[1] < 9 && VERSION.split(".")[0] < 2) {
                 if (status) {
                     self.controlViewModel._enableWebcam();
                     self.onTabChange(self.currentTab, null);  // Simulate change to current tab
